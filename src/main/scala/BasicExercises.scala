@@ -1,3 +1,6 @@
+import scala.reflect.internal.util.Collections
+
+
 object BasicExercises {
 
   def main(args: Array[String]): Unit = {
@@ -121,17 +124,14 @@ object BasicExercises {
 
     iteration4("Fizz", "Buzz", 100)
 
-    def patternMatchingCon1(num1: Int, num2: Int, boolean: Boolean): Int = {
-      boolean match {
+    def patternMatchingCon1(num1: Int, num2: Int, boolean: Boolean): Int = boolean match {
         case true => num1 + num2
         case false => num1 * num2
-      }
     }
 
     println(patternMatchingCon1(3,3,true))
 
-    def patternMatchingCon2(num1: Int, num2: Int, boolean: Boolean): Int = {
-      boolean match {
+    def patternMatchingCon2(num1: Int, num2: Int, boolean: Boolean): Int = boolean match {
         case true =>
           if (num1 == 0 || num2 == 0) {
           Math.max(num1, num2)
@@ -141,23 +141,36 @@ object BasicExercises {
 
         case false => num1 * num2
       }
-    }
+
 
     println(patternMatchingCon2(3, 0, true))
     println(patternMatchingCon2(3, 0, false))
 
-    def patternMatching2(numbers: Tuple2): Tuple2 = {
+    def patternMatching2(numbers: Any): Any = numbers match {
+      case numbers:Tuple2[Int, Int] => numbers.swap
+      case numbers:Array[Int] if numbers.length == 2 => numbers.reverse.mkString(", ")
+      case numbers:List[Int] if numbers.length == 2 => numbers.reverse.mkString(", ")
+      case _ => "Not a pair"
+    }
 
+    val a = List(2,3)
+    println(patternMatching2(a))
+
+
+    def functional1(): Any = {
+      java.util.TimeZone.getAvailableIDs()
+        .map(element => element.split("/"))
+        .filter(element => element.length > 1)
+        .flatMap(_.toList)
+        .distinct
+        .grouped(30)
+        .toList
+        .foreach(element => println(element.mkString("\n")))
     }
 
 
 
-
   }
-
-
-
-
 
 
 }
