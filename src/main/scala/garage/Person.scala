@@ -1,10 +1,11 @@
 package garage
 
-import java.util.Calendar
+abstract class Person {
+  def name: String
+  def dateOfBirth: String
 
-abstract class Person(var name: String, val dateOfBirth: Calendar, var title: String) {
 
-  def toString: Unit
+  def toString(): String
 
 
 }
