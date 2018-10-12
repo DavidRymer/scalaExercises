@@ -10,7 +10,7 @@ object BasicExercises {
     println(helloWorld)
 
     def returnString(input: String): String = {
-      input;
+      input
     }
 
     def typeInterface(input: Any): Any = {
@@ -124,9 +124,10 @@ object BasicExercises {
 
     iteration4("Fizz", "Buzz", 100)
 
-    def patternMatchingCon1(num1: Int, num2: Int, boolean: Boolean): Int = boolean match {
-        case true => num1 + num2
-        case false => num1 * num2
+    def patternMatchingCon1(num1: Int, num2: Int, boolean: Boolean): Int = if (boolean) {
+      num1 + num2
+    } else {
+      num1 * num2
     }
 
     println(patternMatchingCon1(3,3,true))
@@ -147,7 +148,7 @@ object BasicExercises {
     println(patternMatchingCon2(3, 0, false))
 
     def patternMatching2(numbers: Any): Any = numbers match {
-      case numbers:Tuple2[Int, Int] => numbers.swap
+      case numbers:(Int, Int) => numbers.swap
       case numbers:Array[Int] if numbers.length == 2 => numbers.reverse.mkString(", ")
       case numbers:List[Int] if numbers.length == 2 => numbers.reverse.mkString(", ")
       case _ => "Not a pair"
