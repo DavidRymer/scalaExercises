@@ -1,7 +1,7 @@
 package garage
 
 class Bike(val ownerId: Int, val make: String, val model: String, val numberOfWheels: Int,
-           var chain: String, val costOfRepair: Int, var timeToRepair: Int) extends Vehicle {
+           var chain: String, var costOfRepair: Int, var timeToRepair: Int) extends Vehicle {
 
 
   override def toString(): String = {

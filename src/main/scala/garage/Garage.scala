@@ -1,19 +1,19 @@
 package garage
 
-import scala.collection.mutable
-import scala.collection.mutable.HashMap
+
+import scala.collection.mutable.{ArrayBuffer}
 
 class Garage {
 
 object Storage {
-  val vehicles: mutable.HashMap[Int, Vehicle] = mutable.HashMap[Int, Vehicle]()
-  val employees: mutable.HashMap[Int, Employee] = mutable.HashMap[Int, Employee]()
+  var vehicles = new ArrayBuffer[Vehicle]
+  var employees = new ArrayBuffer[Employee]
 }
 
   def addCar(ownerId: Int, make: String, model: String, numberOfWheels: Int, steeringWheel: String, costOfRepair: Int, timeToRepair: Int): Boolean = {
 
-    if (Storage.vehicles.get(ownerId).isEmpty) {
-      Storage.vehicles += (ownerId -> new Car(ownerId, make, model, numberOfWheels, steeringWheel, costOfRepair, timeToRepair))
+    if (findVehicleById(ownerId) == null) {
+      Storage.vehicles += new Car(ownerId, make, model, numberOfWheels, steeringWheel, costOfRepair, timeToRepair)
       Storage.vehicles.mkString(" ")
       true
     } else {
@@ -23,50 +23,77 @@ object Storage {
 
   def addBike(ownerId: Int, make: String, model: String, numberOfWheels: Int, chain: String, costOfRepair: Int, timeToRepair: Int): Boolean = {
 
-    if (Storage.vehicles.get(ownerId).isEmpty) {
-      Storage.vehicles += (ownerId -> new Bike(ownerId,make,model,numberOfWheels,chain, costOfRepair, timeToRepair))
+    if (findVehicleById(ownerId) == null) {
+      Storage.vehicles += new Bike(ownerId,make,model,numberOfWheels,chain, costOfRepair, timeToRepair)
       true
     } else {
       false
     }
+  }
+
+  def findEmployeeById(employeeId: Int): Employee = {
+    var foundEmployee: Employee = null
+    Storage.employees.foreach{employee =>
+      if (employee.employeeId == employeeId) {
+        foundEmployee = employee
+      }
+    }
+    foundEmployee
+  }
+
+  def findVehicleById(ownerId: Int): Vehicle = {
+    var foundVehicle: Vehicle = null
+    Storage.vehicles.foreach{vehicle =>
+      if (vehicle.ownerId == ownerId) {
+        foundVehicle = vehicle
+      }
+    }
+    foundVehicle
   }
 
   def addEmployee(employeeId: Int, name: String, dateOfBirth: String, title: String, salary: Int, workingHours: Int): Boolean = {
 
-    if (Storage.employees.get(employeeId).isEmpty) {
-      Storage.employees += (employeeId -> new Employee(employeeId,name, dateOfBirth, title, salary, workingHours))
+    if (findEmployeeById(employeeId) == null) {
+      Storage.employees += new Employee(employeeId, name, dateOfBirth, title, salary, workingHours)
       true
     } else {
       false
     }
   }
+
   def calculateBills(): Int = {
     var sum = 0
-    Storage.vehicles.foreach(element => sum += element._2.costOfRepair)
+    Storage.vehicles.foreach(element => sum += element.costOfRepair)
     sum
   }
 
   def showVehicles(): Unit = {
-    Storage.vehicles.foreach(element => println(element.toString()))
+    if (Storage.vehicles.nonEmpty)
+      Storage.vehicles.foreach(element => println(element.toString()))
+    else
+      println("No vehicles to show")
+
   }
 
   def totalEmployeeHours(): Int = {
     var total = 0
-    Storage.employees.foreach(employee => total += employee._2.workHours)
+    Storage.employees.foreach(employee => total += employee.workHours)
     total
   }
 
   def workDay(): Unit = {
     var revenue = 0
     var hours = 0
-    var i = 0
 
-    while(hours <= totalEmployeeHours() || i <= Storage.vehicles.size) {
-      revenue += Storage.vehicles(i).costOfRepair *2
-      hours += Storage.vehicles(i).timeToRepair
-      Storage.vehicles.remove(i)
-      i += 1
+
+    while(hours <= totalEmployeeHours()) {
+      revenue += Storage.vehicles(0).costOfRepair *2
+      hours += Storage.vehicles(0).timeToRepair
+      println(s"Fixed vehicle ${Storage.vehicles(0).make}" + s" ${Storage.vehicles(0).model} with owner ID: ${Storage.vehicles(0).ownerId}")
+      Storage.vehicles.remove(0)
     }
+
+//    for(j <- 0 to i) Storage.vehicles.remove(j)
 
     println(s"Total revenue made today: £$revenue")
   }
@@ -78,6 +105,5 @@ object Test extends App {
   garage.addBike(2,"Yamaha", "Zoomer", 2, "chainy", 150,3)
   garage.addEmployee(1, "John Doe", "21/05/1997", "Mechanic", 23500, 3)
   garage.workDay()
-  println(garage.calculateBills())
 
 }
