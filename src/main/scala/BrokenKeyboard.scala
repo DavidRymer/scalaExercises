@@ -1,4 +1,3 @@
-import java.util
 
 import scala.collection.mutable.ArrayBuffer
 import scala.io.Source
@@ -9,7 +8,7 @@ object BrokenKeyboard {
 
     def accumulateWords(): ArrayBuffer[String] = {
       var dictionary = ArrayBuffer[String]()
-      val bufferedSource = Source.fromFile("C:\\Users\\Admin\\IdeaProjects\\Broken Keyboard\\src\\main\\scala\\enable1.txt")
+      val bufferedSource = Source.fromFile("src/enable1.txt")
       for (line <- bufferedSource.getLines) {
         dictionary += line.toString
 
@@ -21,23 +20,18 @@ object BrokenKeyboard {
       var longestWords = ArrayBuffer[String]()
       words.foreach{word =>
         accumulateWords().foreach{ element =>
-            if (element.toCharArray.distinct.toSet.subsetOf(word.toCharArray.toSet))
+            if (element.toCharArray.distinct.toSet.subsetOf(word.toLowerCase.toCharArray.toSet))
               longestWords += element
         }
-        if (longestWords.nonEmpty) {
-          println(longestWords.maxBy(_.length))
-        }
-        else
-          println(s"No word found for \'$word\'")
 
+        longestWords.nonEmpty match {
+          case true => println(longestWords.maxBy(_.length))
+          case _ => println(s"No word found for \'$word\'")
+        }
 
         longestWords.clear()
       }
-
     }
-
-    generateWords("edcf", "bnik", "poil", "vybu", "hello", "f")
-
+    generateWords("Nicholas Milner")
   }
-
 }
