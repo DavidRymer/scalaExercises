@@ -9,20 +9,15 @@ object BasicExercises {
     val helloWorld = "Hello World!"
     println(helloWorld)
 
-    def returnString(input: String): String = {
-      input
-    }
+    def returnString(input: String): String = input
 
-    def typeInterface(input: Any): Any = {
-      input
+    println(returnString("Hello, World!"))
 
-    }
+    def typeInterface(input: Any): Any = input
 
     println(typeInterface("Hello World"))
 
-    def lastOfString(string: String, number: Int): String = {
-      string.substring(string.length - number, string.length)
-    }
+    def lastOfString(string: String, number: Int): String = string.substring(string.length - number, string.length)
 
     println(lastOfString("Hello", 3))
 
@@ -33,14 +28,12 @@ object BasicExercises {
 
     println(replaceTwoStrings("Hello", "World", 'l', 'p'))
 
-    def sum(num1: Int, num2: Int): Int = {
-      num1 + num2
-    }
+    def sum(num1: Int, num2: Int): Int = num1 + num2
 
     println(sum(1, 2))
 
-    def conditionals(num1: Int, num2: Int, boolean: Boolean): Int = {
-      if (boolean)
+    def conditionals(num1: Int, num2: Int, modifier: Boolean): Int = {
+      if (modifier)
         num1 + num2
       else
         num1 * num2
@@ -50,37 +43,29 @@ object BasicExercises {
     println(conditionals(3, 3, true))
     println(conditionals(3, 3, false))
 
-    def conditionals2(num1: Int, num2: Int, boolean: Boolean): Int = {
-      var ans = 0
-      if (boolean)
-        ans = num1 + num2
-      else
-        ans = num1 * num2
+    def conditionals2(num1: Int, num2: Int, modifier: Boolean): Int = {
+      modifier match {
+        case true => num1 + num2
+        case false => num1 * num2
+        case a if (num1 == 0 || num2 == 0) && a =>
+          Math.max(num1, num2)
+      }
 
-      if ((num1 == 0 || num2 == 0) && boolean)
-        ans = Math.max(num1, num2)
-      ans
     }
 
     println(conditionals2(0, 3, true))
     println(conditionals2(3, 3, false))
 
-    def iteration(string: String, numberOfPrints: Int): Unit = {
-      for(i <- 1 to numberOfPrints)
-        println(string)
-    }
+    def iteration(string: String, numberOfPrints: Int): Unit = (1 to numberOfPrints).foreach(_ => println(string))
 
     iteration("Hello", 3)
 
     def iteration2(string: String, numberOfPrints: Int): Unit = {
-      var word = ""
-      for (i <- 1 to numberOfPrints) {
-        word += string
-      }
+      val word = new StringBuilder("")
 
-      iteration(word, numberOfPrints)
+      (1 to numberOfPrints).foreach(_ => word.append(string + " "))
 
-
+      iteration(word.toString(), numberOfPrints)
     }
 
     iteration2("H", 4)
@@ -88,38 +73,31 @@ object BasicExercises {
     def iteration3(string1: String, string2: String, number: Int): Unit = {
 
       for (i<-1 to number) {
+        val output = new StringBuilder("")
 
-        if (i%3 == 0 && i%5 !=0)
-          println(string1)
-        else if (i%5 == 0 && i%3 !=0)
-          println(string2)
-        else if (i%3 == 0 && i%5 ==0)
-          println(string1.concat(string2))
-        else
-          println(i)
+          if (i%3 == 0) output.append(string1)
+          if (i%5 == 0) output.append(string2)
+          if (output.toString().equals("")) output.append(i)
 
+        println(output)
       }
     }
-
-
 
     iteration3("Fizz", "Buzz", 100)
 
     def iteration4(string1: String, string2: String, number: Int): Unit = {
-      if (number <= 1)
-        println(1)
+      if (number <= 1) println(1)
 
-      else if (number%3 == 0 && number%5 !=0)
-        println(string1)
-      else if (number%5 == 0 && number%3 !=0)
-        println(string2)
-      else if (number%3 == 0 && number%5 ==0)
-        println(string1.concat(string2))
-      else
-      println(number)
+      val output = new StringBuilder("")
+
+      if (number%3 == 0) output.append(string1)
+      if (number%5 == 0) output.append(string2)
+      if (output.toString().equals("")) output.append(number)
+
+      println(output)
 
       if (number > 1)
-      iteration4(string1, string2, number -1)
+        iteration4(string1, string2, number -1)
     }
 
     iteration4("Fizz", "Buzz", 100)
@@ -133,15 +111,15 @@ object BasicExercises {
     println(patternMatchingCon1(3,3,true))
 
     def patternMatchingCon2(num1: Int, num2: Int, boolean: Boolean): Int = boolean match {
-        case true =>
-          if (num1 == 0 || num2 == 0) {
+      case true =>
+        if (num1 == 0 || num2 == 0) {
           Math.max(num1, num2)
         }
-          else
+        else
           num1 + num2
 
-        case false => num1 * num2
-      }
+      case false => num1 * num2
+    }
 
 
     println(patternMatchingCon2(3, 0, true))
@@ -169,7 +147,7 @@ object BasicExercises {
         .foreach(element => println(element.mkString("\n")))
     }
 
-
+    iteration2("H", 4)
 
   }
 

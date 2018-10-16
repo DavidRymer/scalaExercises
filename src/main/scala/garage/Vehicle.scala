@@ -1,13 +1,14 @@
 package garage
 
 abstract class Vehicle {
-  def make: String
-  def model: String
-  def numberOfWheels: Int
-  def ownerId: Int
-  def costOfRepair: Int
-  def timeToRepair: Int
-  def toString(): String
+  val make: String
+  val model: String
+  val numberOfWheels: Int
+  val ownerId: Int
+  var costOfRepair: Int
+  var timeToRepair: Int
+  def toString: String
+  def fixVehicle(hoursLeftOfDay: Int): Unit
 
 
 }
