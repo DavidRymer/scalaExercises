@@ -1,3 +1,6 @@
+import java.util
+
+
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 import scala.io.Source
@@ -28,32 +31,26 @@ object AdvancedExercises {
         }
 
         anagrams.nonEmpty match {
-          case true =>
-          //  anagrams.foreach(println)
-            // println()
-            hashMap += word -> anagrams
+          case true => hashMap += (word -> anagrams)
+
+            anagrams.foreach(println)
+           println()
+
           case _ => println(s"No word found for \'$word\'")
         }
 
         anagrams.clear()
       }
-      println(hashMap)
-
 
       hashMap
     }
     generateWords("ppa", "cats")
 
-    def mostAnagrams(anagrams: mutable.HashMap[String, ArrayBuffer[String]]): Unit = {
-      println(anagrams.get("ppa").get.length)
+    def mostAnagrams(anagrams: mutable.HashMap[String, ArrayBuffer[String]]): String = {
+      anagrams.maxBy(_._2.length)._1
     }
 
-
-
-//    mostAnagrams(generateWords("cats", "ppa"))
+    println("\n" + mostAnagrams(generateWords("cats", "ppa")))
   }
-
-
-
 
 }
